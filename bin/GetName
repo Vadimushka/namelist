@@ -1,0 +1,18 @@
+#!/usr/bin/env php8.1
+<?php
+$gender = null;
+if (!in_array($argv[1], ['male', 'female'])) {
+    echo "Type male or female" . PHP_EOL;
+    return;
+} else {
+    $gender = $argv[1];
+}
+require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
+try {
+    list($count, $lang) = \vadimushka_d\NameList\ParseConsole\ConsoleParser::parse($argv);
+    echo implode("\n", (new \vadimushka_d\NameList\GetNameList($count, $lang))->{'get'. ucfirst($gender) .'Names'}()) . PHP_EOL;
+} catch (Exception $exception) {
+    echo $exception->getMessage() . PHP_EOL;
+    exit(1);
+}
+
